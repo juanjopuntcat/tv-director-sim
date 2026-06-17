@@ -6,10 +6,16 @@
 [![Three.js](https://img.shields.io/badge/Three.js-3D-black)](https://threejs.org/)
 [![Status](https://img.shields.io/badge/status-prototype-orange)]()
 [![Web Based](https://img.shields.io/badge/platform-web-brightgreen)]()
+[![Live Demo](https://img.shields.io/badge/live-demo-brightgreen)](https://juanjopuntcat.github.io/tv-director-sim/)
+[![Deploy to GitHub Pages](https://github.com/juanjopuntcat/tv-director-sim/actions/workflows/deploy.yml/badge.svg)](https://github.com/juanjopuntcat/tv-director-sim/actions/workflows/deploy.yml)
 
 A web-based 3D television production simulator built with **Three.js**, **TypeScript** and **Vite**.
 
 The player acts as both **vision mixer/director** and **camera operator**, managing several virtual camera feeds from a live 3D studio and switching between **Preview** and **Programme** outputs inside a procedural 3D control room.
+
+## Live Demo
+
+Try it here: https://juanjopuntcat.github.io/tv-director-sim/
 
 ## Current Features
 
