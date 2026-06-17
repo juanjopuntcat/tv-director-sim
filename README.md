@@ -1,5 +1,12 @@
 # 3D Television Production Simulator
 
+[![Licence: AGPL v3](https://img.shields.io/badge/Licence-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-powered-646CFF)](https://vitejs.dev/)
+[![Three.js](https://img.shields.io/badge/Three.js-3D-black)](https://threejs.org/)
+[![Status](https://img.shields.io/badge/status-prototype-orange)]()
+[![Web Based](https://img.shields.io/badge/platform-web-brightgreen)]()
+
 A web-based 3D television production simulator built with **Three.js**, **TypeScript** and **Vite**.
 
 The player acts as both **vision mixer/director** and **camera operator**, managing several virtual camera feeds from a live 3D studio and switching between **Preview** and **Programme** outputs inside a procedural 3D control room.
@@ -29,6 +36,9 @@ The player acts as both **vision mixer/director** and **camera operator**, manag
   - Return to wide shot
 - Reset camera shot
 - Help overlay with controls
+
+## Languages
+Right now, this alpha is available only in English (en-GB), but it will also be available on the future in Catalan (ca-ES) and Spanish (es-ES).
 
 ## Tech Stack
 
