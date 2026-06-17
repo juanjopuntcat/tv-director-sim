@@ -1,22 +1,27 @@
+/**
+ * Global document reset.
+ *
+ * The simulator is rendered inside a single WebGL canvas. The page itself
+ * should not scroll, add margins or show any default browser spacing around
+ * the game.
+ */
 html,
-body,
-#app {
-  margin: 0;
-  padding: 0;
+body {
   width: 100%;
   height: 100%;
+  margin: 0;
   overflow: hidden;
-  background: #000;
-}
 
-#help-overlay {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-  background: rgba(0, 0, 0, 0.65);
+  /**
+   * The black background becomes the visible letterbox or pillarbox area when
+   * the browser viewport does not match the game's fixed 16:9 aspect ratio.
+   */
+  background: #000;
+
+  /**
+   * Use a system font stack for all DOM overlays such as help and orientation
+   * warnings.
+   */
   font-family:
     system-ui,
     -apple-system,
@@ -25,76 +30,206 @@ body,
     sans-serif;
 }
 
+/**
+ * Vite application mount point.
+ *
+ * The Three.js canvas is appended here from main.ts.
+ */
+#app {
+  position: fixed;
+  inset: 0;
+
+  /**
+   * Centre the canvas horizontally and vertically.
+   *
+   * The canvas itself is sized from TypeScript to preserve the game aspect
+   * ratio. This flex layout creates automatic letterbox or pillarbox bars.
+   */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+  background: #000;
+}
+
+/**
+ * Main WebGL canvas.
+ *
+ * The actual CSS width and height are controlled from main.ts so the canvas can
+ * preserve 16:9 while fitting inside any browser viewport.
+ */
+canvas {
+  display: block;
+
+  /**
+   * Prevent accidental inline-canvas whitespace and selection artefacts.
+   */
+  user-select: none;
+  -webkit-user-select: none;
+
+  /**
+   * Avoid touch gestures such as browser panning/zooming interfering with the
+   * simulator on mobile or tablet devices.
+   */
+  touch-action: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Help overlay                                                               */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Full-screen help overlay container.
+ *
+ * It is hidden by default and shown by adding the `.visible` class from
+ * helpOverlay.ts.
+ */
+#help-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+  box-sizing: border-box;
+
+  /**
+   * Semi-transparent dark backdrop over the game canvas.
+   */
+  background: rgba(0, 0, 0, 0.72);
+
+  color: #fff;
+}
+
+/**
+ * Visible state for the help overlay.
+ */
 #help-overlay.visible {
   display: flex;
 }
 
+/**
+ * Main help panel card.
+ */
 .help-panel {
-  width: min(720px, calc(100vw - 32px));
-  max-height: calc(100vh - 32px);
+  width: min(720px, 100%);
+  max-height: min(760px, calc(100vh - 48px));
+
   overflow-y: auto;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 16px;
-  background: rgba(12, 12, 18, 0.96);
-  color: #f4f4f7;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+
   padding: 24px;
+  box-sizing: border-box;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+
+  background: rgba(16, 16, 24, 0.96);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
 }
 
+/**
+ * Top row of the help panel.
+ *
+ * Contains the title and the close button.
+ */
 .help-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
+/**
+ * Help panel title.
+ */
 .help-header h2 {
   margin: 0;
+
   font-size: 28px;
+  line-height: 1.1;
 }
 
+/**
+ * Close button for the help overlay.
+ */
 #help-close-button {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
+
   border: 0;
   border-radius: 999px;
+
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
+
   font-size: 28px;
   line-height: 1;
+
   cursor: pointer;
 }
 
+/**
+ * Hover style for the help close button.
+ */
 #help-close-button:hover {
   background: rgba(255, 255, 255, 0.22);
 }
 
+/**
+ * Individual section inside the help panel.
+ */
 .help-section {
-  margin-top: 18px;
+  padding: 14px 0;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+/**
+ * Section title inside the help panel.
+ */
 .help-section h3 {
-  margin: 0 0 8px;
-  color: #ffffff;
-  font-size: 17px;
+  margin: 0 0 10px;
+
+  color: #f4f4f8;
+
+  font-size: 18px;
 }
 
+/**
+ * Help text rows.
+ */
 .help-section p {
-  margin: 7px 0;
+  margin: 8px 0;
+
   color: #d8d8df;
+
   font-size: 15px;
+  line-height: 1.45;
 }
 
+/**
+ * Keyboard key badges.
+ */
 kbd {
   display: inline-block;
+
   min-width: 24px;
-  margin-right: 4px;
   padding: 3px 7px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  margin: 0 2px;
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom-color: rgba(255, 255, 255, 0.36);
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+
   font-family:
     ui-monospace,
     SFMono-Regular,
@@ -104,5 +239,124 @@ kbd {
     "Liberation Mono",
     monospace;
   font-size: 13px;
+  font-weight: 700;
   text-align: center;
+
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.14);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Orientation overlay                                                        */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Mobile portrait warning overlay.
+ *
+ * It appears only when orientationOverlay.ts detects a touch-like device in
+ * portrait orientation.
+ */
+#orientation-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+  box-sizing: border-box;
+
+  background: rgba(0, 0, 0, 0.88);
+  color: #fff;
+
+  text-align: center;
+}
+
+/**
+ * Visible state for the orientation warning.
+ */
+#orientation-overlay.visible {
+  display: flex;
+}
+
+/**
+ * Orientation warning card.
+ */
+.orientation-panel {
+  max-width: 360px;
+
+  padding: 28px 24px;
+  box-sizing: border-box;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+
+  background: rgba(18, 18, 28, 0.96);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+/**
+ * Rotation icon shown above the orientation message.
+ */
+.orientation-icon {
+  margin-bottom: 12px;
+
+  font-size: 56px;
+  line-height: 1;
+}
+
+/**
+ * Orientation warning title.
+ */
+.orientation-panel h2 {
+  margin: 0 0 12px;
+
+  font-size: 26px;
+  line-height: 1.15;
+}
+
+/**
+ * Orientation warning explanatory text.
+ */
+.orientation-panel p {
+  margin: 8px 0;
+
+  color: #d8d8df;
+
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Small-screen polish                                                        */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Make the help panel a little more compact on smaller screens.
+ */
+@media (max-width: 640px) {
+  #help-overlay {
+    padding: 16px;
+  }
+
+  .help-panel {
+    max-height: calc(100vh - 32px);
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .help-header h2 {
+    font-size: 24px;
+  }
+
+  .help-section p {
+    font-size: 14px;
+  }
+
+  kbd {
+    min-width: 22px;
+    padding: 2px 6px;
+    font-size: 12px;
+  }
 }
